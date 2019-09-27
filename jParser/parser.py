@@ -123,6 +123,13 @@ def p_value_str(p):
     p[0] = remove_surrounding_quotes(p[1])
 
 
+def p_value_num(p):
+    """value : NUMBER
+    """
+    trace('p_value_num: {}', p[1])
+    p[0] = transform_to_number(p[1])
+
+
 def p_empty(p):
     """empty :
     """
@@ -184,6 +191,19 @@ def transform_to_dict(pairs: tuple) -> dict:
         current = current[1]
 
     return result
+
+
+def transform_to_number(value: str):
+    """Returns an integer if value represents
+    integer value, otherwise returns float.
+    In case of error returns 0
+    """
+    try:
+        return int(value)
+    except ValueError:
+        return float(value)
+    except TypeError:
+        return 0
 
 
 def remove_surrounding_quotes(string: str) -> str:

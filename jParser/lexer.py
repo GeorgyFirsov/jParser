@@ -14,6 +14,7 @@ from Utils.settings import debug
 # This tuple contains all tokens, that can be in JSON-file
 tokens = (
     'STRING',
+    'NUMBER',
 )
 
 # It is a tuple with all literals (symbols, which are
@@ -28,6 +29,9 @@ literals = (
 # String is any sequence of characters surrounded with
 # double quotes with only condition: no internal quotes allowed
 t_STRING = r'"[^"]*"'
+
+# Number is any combination of digits with one dot (or without it)
+t_NUMBER = r'(-){0,1}([0-9]+\.{0,1}[0-9]+|[0-9]+)'
 
 # Spaces and tabs are not recognized as tokens or literals
 t_ignore = ' \t'

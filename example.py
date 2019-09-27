@@ -9,14 +9,14 @@
 
 from jParser.reader import Reader
 
-json = '{                                   ' \
-       '    "line1": ["text11", "text12"],  ' \
-       '    "line2": {                      ' \
-       '                "line21": "text21", ' \
-       '                "line22": "text22"  ' \
-       '             },                     ' \
-       '    "line3": "text3"                ' \
-       '}                                   '
+json = '{                                   \n\
+           "line1": ["text11", "text12"],   \n\
+           "line2": {                       \n\
+                       "line21": "text21",  \n\
+                       "line22": "text22"   \n\
+                    },                      \n\
+           "line3": "text3"                 \n\
+       }'
 
 if __name__ == '__main__':
     reader = Reader()

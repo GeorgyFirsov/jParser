@@ -18,6 +18,19 @@ import jParser.lexer
 tokens = jParser.lexer.tokens
 
 
+class YaccSyntaxError(BaseException):
+    """Class describes syntax error.
+    It contains info about wrong
+    statement position
+    """
+
+    def __init__(self, lineno):
+        self.__lineno = lineno
+
+    def what(self):
+        return 'Syntax error at line {}'.format(self.__lineno)
+
+
 ###############################################################
 #              Here comes grammar implementation              #
 
@@ -120,12 +133,12 @@ def p_empty(p):
 ###############################################################
 
 
-# Error handler.
+# Error handler
 def p_error(p):
     if not p:
         print('Done. End of file.')
     else:
-        print('Syntax error.')
+        raise YaccSyntaxError(p.lineno - 1)
 
 
 def transform_to_list(values: tuple) -> list:

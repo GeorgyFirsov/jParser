@@ -10,7 +10,7 @@
 from ply.lex import LexError
 
 from jParser.lexer import lexer
-from jParser.parser import parser
+from jParser.parser import parser, YaccSyntaxError
 from Utils.settings import debug
 
 
@@ -32,8 +32,12 @@ class Reader(object):
         """
         try:
             return self.__parser.parse(json, lexer=lexer, debug=debug)
+
         except LexError:
             print('LexError caught. See description above.\n')
+            return None
+        except YaccSyntaxError as error:
+            print(error.what())
             return None
 
     def parse_file(self, json_file: str):
@@ -45,6 +49,10 @@ class Reader(object):
                 return self.__parser.parse(
                     file.read(), lexer=lexer, debug=debug
                 )
+
             except LexError:
                 print('LexError caught. See description above.\n')
+                return None
+            except YaccSyntaxError as error:
+                print(error.what())
                 return None

@@ -12,7 +12,7 @@ __version__ = 'v0.1'
 ###############################################################
 #                       User preferences                      #
 
-debug = True
+debug = False
 raise_warnings = True
 
 #                   End of user preferences                   #

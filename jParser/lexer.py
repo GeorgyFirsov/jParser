@@ -26,17 +26,24 @@ literals = (
 )
 
 # String is any sequence of characters surrounded with
-# double quotes with one condition: any internal quote
-# should be written after back slash ( \" ).
-t_STRING = r'"([^"]|(\\"))*"'
+# double quotes with only condition: no internal quotes allowed
+t_STRING = r'"[^"]*"'
 
 # Spaces and tabs are not recognized as tokens or literals
 t_ignore = ' \t'
 
+# New line escape sequence
+r_newline = r'\n+'
 
+
+# This function counts lines
+@lex.TOKEN(r_newline)
+def t_newline(t):
+    t.lexer.lineno += len(t.value)
+
+
+# Error handler
 def t_error(t):
-    """Error handler.
-    """
     print(f'Illegal character: {t.value[0]} at ({t.lineno}, {t.lexpos})')
 
 

@@ -199,9 +199,10 @@ def transform_to_number(value: str):
     In case of error returns 0
     """
     try:
-        return int(value)
-    except ValueError:
-        return float(value)
+        try:
+            return int(value)
+        except ValueError:
+            return float(value)
     except TypeError:
         return 0
 

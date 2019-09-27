@@ -146,7 +146,7 @@ def transform_to_list(values: tuple) -> list:
     to list.
 
     :param values: tuple of values of
-    following format:
+                   following format:
         (value_1, (value_2, ... (value_n, (value_m, None)) ... ))
     Each value is string, list or dict.
     """
@@ -168,7 +168,7 @@ def transform_to_dict(pairs: tuple) -> dict:
     to dict.
 
     :param pairs: tuple of values of
-    following format:
+                  following format:
         (pair_1, (pair_1, ... (pair_n, (pair_m, None)) ... ))
     Each pair is a tuple of kind: (string, value)
     """

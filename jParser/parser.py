@@ -7,8 +7,6 @@
 # Licensed with GNU GPL v3
 #
 
-from warnings import warn
-
 from ply import yacc
 
 from Utils.settings import debug, raise_warnings
@@ -70,16 +68,17 @@ def p_pairs_pl(p):
 def p_pairs_sg(p):
     """pairs : pair
     """
-    trace('p_pairs_sg: ({},)', p[1])
-    # Do not remove comma! Here I need to have a tuple
-    p[0] = (p[1],)
+    trace('p_pairs_sg: ({}, None)', p[1])
+    p[0] = (p[1], None)
 
 
 def p_pair(p):
     """pair : STRING ':' value
     """
     trace('p_pair: ({}, {})', p[1], p[3])
-    p[0] = (p[1], p[3])
+    p[0] = (
+        remove_surrounding_quotes(p[1]), p[3]
+    )
 
 
 def p_values_pl(p):
@@ -92,23 +91,29 @@ def p_values_pl(p):
 def p_values_sg(p):
     """values : value
     """
-    trace('p_values_sg: ({},)', p[1])
-    # Do not remove comma! Here I need to have a tuple
-    p[0] = (p[1],)
+    trace('p_values_sg: ({}, None)', p[1])
+    p[0] = (p[1], None)
 
 
-def p_value(p):
-    """value : STRING
-             | dict
+def p_value_cont(p):
+    """value : dict
              | list
     """
-    trace('p_value: {}', p[1])
+    trace('p_value_cont: {}', p[1])
     p[0] = p[1]
+
+
+def p_value_str(p):
+    """value : STRING
+    """
+    trace('p_value_str: {}', p[1])
+    p[0] = remove_surrounding_quotes(p[1])
 
 
 def p_empty(p):
     """empty :
     """
+    trace('p_empty')
     p[0] = None
 
 #                End of grammar implementation                #
@@ -129,12 +134,20 @@ def transform_to_list(values: tuple) -> list:
 
     :param values: tuple of values of
     following format:
-        (value_1, (value_2, ... (value_n, (value_m)) ... ))
+        (value_1, (value_2, ... (value_n, (value_m, None)) ... ))
     Each value is string, list or dict.
     """
-    if raise_warnings:
-        warn("Currently not implemented")
-    return list()
+    assert (values is not None)
+    assert (len(values))  # Empty lists can not be here
+
+    result = list()
+    current = values
+
+    while current is not None:
+        result.append(current[0])
+        current = current[1]
+
+    return result
 
 
 def transform_to_dict(pairs: tuple) -> dict:
@@ -143,12 +156,36 @@ def transform_to_dict(pairs: tuple) -> dict:
 
     :param pairs: tuple of values of
     following format:
-        (pair_1, (pair_1, ... (pair_n, (pair_m)) ... ))
+        (pair_1, (pair_1, ... (pair_n, (pair_m, None)) ... ))
     Each pair is a tuple of kind: (string, value)
     """
-    if raise_warnings:
-        warn("Currently not implemented")
-    return dict()
+    assert (pairs is not None)
+    assert (len(pairs))
+
+    result = {}
+    current = pairs
+
+    while current is not None:
+        key, value = current[0]
+        result[str(key)] = value
+        current = current[1]
+
+    return result
+
+
+def remove_surrounding_quotes(string: str) -> str:
+    """Removes outer quotes from string:
+        "string" -> string
+
+    :param string: string with quotes.
+                   May not contain them, so
+                   firstly check their existence
+    """
+    if not string.startswith('"') or \
+       not string.endswith('"'):
+        return string
+
+    return string[1:-1]
 
 
 # Parser object. It will be used in Reader to parse JSON from input.

@@ -11,12 +11,18 @@ from ply import lex
 
 from Utils.settings import debug
 
+# These reserved words will be recognized "as-is"
+reserved = {
+    'true': 'TRUE',
+    'false': 'FALSE',
+}
+
 # This tuple contains all tokens, that can be in JSON-file
 tokens = (
     'STRING',
     'NUMBER',
     'ID',
-)
+) + tuple(reserved.values())
 
 # It is a tuple with all literals (symbols, which are
 # not tokens, but can be in JSON-file). They will be
@@ -37,7 +43,7 @@ t_NUMBER = r'(-){0,1}([0-9]+\.{0,1}[0-9]+|[0-9]+)'
 # Id is any combination of letters, digits, dashes and underscores
 # in any order of any length. The only condition: first symbol
 # should be a letter.
-t_ID = r'[A-Za-z][A-Za-z0-9_\-]*'
+r_ID = r'[A-Za-z][A-Za-z0-9_\-]*'
 
 # Spaces and tabs are not recognized as tokens or literals
 t_ignore = ' \t'
@@ -50,6 +56,12 @@ r_newline = r'\n+'
 @lex.TOKEN(r_newline)
 def t_newline(t):
     t.lexer.lineno += len(t.value)
+
+
+@lex.TOKEN(r_ID)
+def t_ID(t):
+    t.type = reserved.get(t.value, 'ID')
+    return t
 
 
 # Error handler

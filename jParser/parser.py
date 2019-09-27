@@ -9,7 +9,7 @@
 
 from ply import yacc
 
-from Utils.settings import debug, raise_warnings
+from Utils.settings import debug
 from Utils.trace import trace
 import jParser.lexer
 
@@ -142,6 +142,21 @@ def p_value_num(p):
     p[0] = transform_to_number(p[1])
 
 
+def p_value_id(p):
+    """value : ID
+    """
+    trace('p_value_id: {}', p[1])
+    p[0] = p[1]
+
+
+def p_value_bool(p):
+    """value : TRUE
+             | FALSE
+    """
+    trace('p_value_bool')
+    p[0] = transform_to_bool(p[1])
+
+
 def p_empty(p):
     """empty :
     """
@@ -157,7 +172,8 @@ def p_error(p):
     if not p:
         print('Done. End of file.')
     else:
-        raise YaccSyntaxError(p.lineno - 1)
+        print(p.value)
+        raise YaccSyntaxError(p.lineno)
 
 
 def transform_to_list(values: tuple) -> list:
@@ -217,6 +233,13 @@ def transform_to_number(value: str):
             return float(value)
     except TypeError:
         return 0
+
+
+def transform_to_bool(value: str) -> bool:
+    """Transforms string values 'true' and
+    'false' to their Python equivalents.
+    """
+    return value == 'true'
 
 
 def remove_surrounding_quotes(string: str) -> str:

@@ -9,6 +9,8 @@
 
 __version__ = 'v0.1'
 
+data_location = '../Data/'  # Relative to 'Test' directory
+
 ###############################################################
 #                       User preferences                      #
 

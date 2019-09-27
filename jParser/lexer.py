@@ -15,6 +15,7 @@ from Utils.settings import debug
 tokens = (
     'STRING',
     'NUMBER',
+    'ID',
 )
 
 # It is a tuple with all literals (symbols, which are
@@ -32,6 +33,11 @@ t_STRING = r'"[^"]*"'
 
 # Number is any combination of digits with one dot (or without it)
 t_NUMBER = r'(-){0,1}([0-9]+\.{0,1}[0-9]+|[0-9]+)'
+
+# Id is any combination of letters, digits, dashes and underscores
+# in any order of any length. The only condition: first symbol
+# should be a letter.
+t_ID = r'[A-Za-z][A-Za-z0-9_\-]*'
 
 # Spaces and tabs are not recognized as tokens or literals
 t_ignore = ' \t'

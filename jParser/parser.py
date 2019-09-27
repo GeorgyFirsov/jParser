@@ -86,12 +86,24 @@ def p_pairs_sg(p):
 
 
 def p_pair(p):
-    """pair : STRING ':' value
+    """pair : key ':' value
     """
     trace('p_pair: ({}, {})', p[1], p[3])
-    p[0] = (
-        remove_surrounding_quotes(p[1]), p[3]
-    )
+    p[0] = (p[1], p[3])
+
+
+def p_key_str(p):
+    """key : STRING
+    """
+    trace('p_key_str: {}', p[1])
+    p[0] = remove_surrounding_quotes(p[1])
+
+
+def p_key_id(p):
+    """key : ID
+    """
+    trace('p_key_id: {}', p[1])
+    p[0] = p[1]
 
 
 def p_values_pl(p):

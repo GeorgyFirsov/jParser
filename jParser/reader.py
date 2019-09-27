@@ -43,16 +43,25 @@ class Reader(object):
     def parse_file(self, json_file: str):
         """Receives a name of file with json as
         a string and returns corresponding dict or list.
+        In case of error returns None.
         """
-        with open(json_file, 'r') as file:
-            try:
-                return self.__parser.parse(
-                    file.read(), lexer=lexer, debug=debug
-                )
+        try:
+            with open(json_file, 'r') as file:
+                try:
+                    return self.__parser.parse(
+                        file.read(), lexer=lexer, debug=debug
+                    )
 
-            except LexError:
-                print('LexError caught. See description above.\n')
-                return None
-            except YaccSyntaxError as error:
-                print(error.what())
-                return None
+                except LexError:
+                    print('LexError caught. See description above.\n')
+                    return None
+                except YaccSyntaxError as error:
+                    print(error.what())
+                    return None
+
+        except FileNotFoundError:
+            print("File doesn't exist")
+            return None
+        except PermissionError:
+            print("File cannot be opened: access denied")
+            return None

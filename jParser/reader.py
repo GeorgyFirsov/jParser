@@ -27,6 +27,9 @@ class Reader(object):
         self.__parser = parser
 
     def parse(self, json: str):
+        """Receives json as a string and returns
+        corresponding dict or list.
+        """
         try:
             return self.__parser.parse(json, lexer=lexer, debug=debug)
         except LexError:
@@ -34,6 +37,9 @@ class Reader(object):
             return None
 
     def parse_file(self, json_file: str):
+        """Receives a name of file with json as
+        a string and returns corresponding dict or list.
+        """
         with open(json_file, 'r') as file:
             try:
                 return self.__parser.parse(

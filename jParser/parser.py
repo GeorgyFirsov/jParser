@@ -138,7 +138,7 @@ def transform_to_list(values: tuple) -> list:
     Each value is string, list or dict.
     """
     assert (values is not None)
-    assert (len(values))  # Empty lists can not be here
+    assert (len(values))  # Empty tuples can not be here
 
     result = list()
     current = values
@@ -160,7 +160,7 @@ def transform_to_dict(pairs: tuple) -> dict:
     Each pair is a tuple of kind: (string, value)
     """
     assert (pairs is not None)
-    assert (len(pairs))
+    assert (len(pairs))  # Empty tuples can not be here
 
     result = {}
     current = pairs

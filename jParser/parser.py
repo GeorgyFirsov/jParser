@@ -215,7 +215,7 @@ def transform_to_dict(pairs: tuple) -> dict:
 
     while current is not None:
         key, value = current[0]
-        result[str(key)] = value
+        result[key] = value
         current = current[1]
 
     return result

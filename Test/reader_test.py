@@ -1,3 +1,12 @@
+#
+# Test/reader_test.py
+# jParser
+#
+# Written by Firsov Georgy
+# Copyright © 2019 Firsov Georgy. All rights reserved.
+# Licensed with GNU GPL v3
+#
+
 import unittest
 
 from jParser.reader import Reader

@@ -29,7 +29,7 @@ data = reader.parse(
 print(data)
 ```
 
-Or you can read parse a file:
+Or you can read and parse a file:
 ```python
 reader = Reader()
 reader.parse_file('data.json')

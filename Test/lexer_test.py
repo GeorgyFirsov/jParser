@@ -25,7 +25,7 @@ class LexerTest(unittest.TestCase):
         expected = [
             '{', 'STRING', ':', '{', 'STRING', ':', 'STRING',
             ',', 'STRING', ':', 'NUMBER', ',', 'STRING',
-            ':', 'ID', '}', '}'
+            ':', 'TRUE', '}', '}'
         ]
 
         self.assertEqual(result, expected)

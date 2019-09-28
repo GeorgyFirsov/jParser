@@ -19,7 +19,7 @@ from jParser.reader import Reader
 ...
 
 reader = Reader()
-reader.parse(json_string)     # String with JSON-like data
+reader.parse(json_string)     Data
 reader.parse_file(json_file)  # Path to file with JSON
 ```
 

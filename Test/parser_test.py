@@ -1,5 +1,5 @@
 #
-# Test/parser_test.py
+# Test/test_expectations.py
 # jParser
 #
 # Written by Firsov Georgy
